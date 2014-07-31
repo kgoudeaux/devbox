@@ -13,6 +13,7 @@ run apt-get install -y cmake
 run apt-get install -y build-essential
 run apt-get install -y tcpdump
 run apt-get install -y screen
+run apt-get install -y bzr
 
 # Install go
 run curl https://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz | tar -C /usr/local -zx
@@ -23,12 +24,14 @@ env PATH /usr/local/go/bin:$PATH
 run useradd dev
 run mkdir /home/dev && chown -R dev: /home/dev
 run mkdir -p /home/dev/go /home/dev/bin /home/dev/lib /home/dev/include
-env PATH /home/dev/bin:$PATH
+env PATH /home/dev/bin:/home/dev/go/bin:$PATH
 env PKG_CONFIG_PATH /home/dev/lib/pkgconfig
 env LD_LIBRARY_PATH /home/dev/lib
 env GOPATH /home/dev/go:$GOPATH
 
 run go get github.com/dotcloud/gordon/pulls
+run go get github.com/tools/godep
+run go install github.com/tools/godep
 
 # Create a shared data volume
 # We need to create an empty file, otherwise the volume will
